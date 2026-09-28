@@ -1,0 +1,1953 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Daily Discipline</title>
+
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+
+/* =========================
+   BASIC
+========================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f4f7fb;
+    color: #172033;
+}
+
+/* =========================
+   LOGIN
+========================= */
+
+#loginPage {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: linear-gradient(135deg, #111827, #2563eb);
+}
+
+.login-card {
+    width: 100%;
+    max-width: 430px;
+    background: white;
+    padding: 40px 30px;
+    border-radius: 25px;
+    text-align: center;
+    box-shadow: 0 25px 70px rgba(0,0,0,0.25);
+}
+
+.logo {
+    width: 75px;
+    height: 75px;
+    border-radius: 20px;
+    background: #2563eb;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+    font-size: 27px;
+    font-weight: bold;
+}
+
+.login-card h1 {
+    margin-top: 20px;
+    font-size: 31px;
+}
+
+.login-card p {
+    color: #64748b;
+    margin: 10px 0 25px;
+}
+
+.login-card input {
+    width: 100%;
+    padding: 15px;
+    border: 1px solid #d1d5db;
+    border-radius: 11px;
+    margin-bottom: 15px;
+    font-size: 16px;
+    outline: none;
+}
+
+.login-card input:focus {
+    border-color: #2563eb;
+}
+
+.login-card button {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 11px;
+    background: #2563eb;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.login-card button:hover {
+    background: #1d4ed8;
+}
+
+.login-card small {
+    display: block;
+    margin-top: 15px;
+    color: #64748b;
+}
+
+
+/* =========================
+   HEADER
+========================= */
+
+.header {
+    background: #111827;
+    color: white;
+    padding: 20px 6%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header h1 {
+    font-size: 28px;
+}
+
+.header p {
+    margin-top: 5px;
+    color: #cbd5e1;
+}
+
+.user-box {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.logout-btn {
+    padding: 9px 15px;
+    border: 1px solid #64748b;
+    background: transparent;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.logout-btn:hover {
+    background: #374151;
+}
+
+
+/* =========================
+   MAIN
+========================= */
+
+.container {
+    width: 92%;
+    max-width: 1200px;
+    margin: 30px auto;
+}
+
+.card {
+    background: white;
+    padding: 25px;
+    border-radius: 18px;
+    margin-bottom: 25px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+}
+
+.card h2 {
+    margin-bottom: 20px;
+}
+
+
+/* =========================
+   TARGET
+========================= */
+
+.target-box {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.target-box h2 {
+    margin: 0;
+}
+
+.target-box select {
+    padding: 13px;
+    border: 1px solid #d1d5db;
+    border-radius: 10px;
+    font-size: 15px;
+}
+
+.start-btn {
+    padding: 13px 20px;
+    border: none;
+    border-radius: 10px;
+    background: #16a34a;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.start-btn:hover {
+    background: #15803d;
+}
+
+
+/* =========================
+   STATS
+========================= */
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+    margin-bottom: 25px;
+}
+
+.stat {
+    background: white;
+    padding: 22px;
+    border-radius: 17px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+}
+
+.stat-title {
+    color: #64748b;
+    margin-bottom: 10px;
+}
+
+.stat-number {
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.stat-small {
+    color: #94a3b8;
+    margin-top: 5px;
+}
+
+
+/* =========================
+   PROGRESS
+========================= */
+
+.progress-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 20px;
+    background: #e5e7eb;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    width: 0%;
+    background: #2563eb;
+    border-radius: 20px;
+    transition: width 0.4s ease;
+}
+
+
+/* =========================
+   DAYS
+========================= */
+
+.info {
+    color: #64748b;
+    margin-bottom: 20px;
+}
+
+.days-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(105px, 1fr));
+    gap: 12px;
+}
+
+.day {
+    min-height: 105px;
+    border: 2px solid #e5e7eb;
+    border-radius: 14px;
+    background: #f8fafc;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    font-weight: bold;
+}
+
+.day-number {
+    font-size: 17px;
+}
+
+.day-status {
+    font-size: 22px;
+}
+
+.day.current {
+    border-color: #2563eb;
+    background: #eff6ff;
+}
+
+.day.completed {
+    background: #dcfce7;
+    border-color: #22c55e;
+    color: #166534;
+}
+
+.day.locked {
+    opacity: 0.5;
+}
+
+.complete-btn {
+    border: none;
+    padding: 6px 10px;
+    border-radius: 7px;
+    background: #2563eb;
+    color: white;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.complete-btn:hover {
+    background: #1d4ed8;
+}
+
+
+/* =========================
+   CONGRATULATIONS
+========================= */
+
+.congratulation {
+    background: #fef3c7;
+    border: 2px solid #f59e0b;
+    color: #92400e;
+    text-align: center;
+    padding: 28px;
+    border-radius: 18px;
+    margin-bottom: 25px;
+}
+
+.congratulation h2 {
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+
+.congratulation p {
+    font-size: 17px;
+}
+
+
+/* =========================
+   CHART
+========================= */
+
+.chart-box {
+    position: relative;
+    height: 350px;
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+footer {
+    text-align: center;
+    padding: 30px;
+    color: #64748b;
+}
+
+footer p {
+    margin: 5px;
+}
+
+
+/* =========================
+   HIDDEN
+========================= */
+
+.hidden {
+    display: none !important;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width: 800px) {
+
+    .stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .header {
+        padding: 18px;
+    }
+
+}
+
+@media(max-width: 550px) {
+
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    .user-box {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .stats {
+        grid-template-columns: 1fr;
+    }
+
+    .target-box {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .target-box select,
+    .start-btn {
+        width: 100%;
+    }
+
+    .days-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .day {
+        min-height: 90px;
+    }
+
+    .chart-box {
+        height: 250px;
+    }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     LOGIN PAGE
+========================= -->
+
+<section id="loginPage">
+
+    <div class="login-card">
+
+        <div class="logo">
+            DD
+        </div>
+
+        <h1>Daily Discipline</h1>
+
+        <p>
+            Build your discipline one day at a time.
+        </p>
+
+
+        <form id="loginForm">
+
+            <input
+                type="email"
+                id="email"
+                placeholder="Enter your Gmail"
+                required
+            >
+
+            <input
+                type="password"
+                id="password"
+                value="1234"
+                maxlength="4"
+                placeholder="Password"
+                required
+            >
+
+            <button type="submit">
+                Login / Continue
+            </button>
+
+        </form>
+
+        <small>
+            Demo Password: 1234
+        </small>
+
+    </div>
+
+</section>
+
+
+
+<!-- =========================
+     APP
+========================= -->
+
+<section id="appPage" class="hidden">
+
+
+<header class="header">
+
+    <div>
+
+        <h1>
+            Daily Discipline
+        </h1>
+
+        <p>
+            Stay consistent • Stay disciplined
+        </p>
+
+    </div>
+
+
+    <div class="user-box">
+
+        <span id="userEmail">
+        </span>
+
+        <button
+            class="logout-btn"
+            id="logoutBtn"
+        >
+            Logout
+        </button>
+
+    </div>
+
+</header>
+
+
+
+<main class="container">
+
+
+<!-- =========================
+     TARGET
+========================= -->
+
+<div class="card">
+
+    <div class="target-box">
+
+        <h2>
+            🎯 Set Your Target
+        </h2>
+
+
+        <select id="targetSelect">
+
+            <option value="30">
+                1 Month - 30 Days
+            </option>
+
+            <option value="60">
+                2 Months - 60 Days
+            </option>
+
+            <option value="90">
+                3 Months - 90 Days
+            </option>
+
+            <option value="120">
+                4 Months - 120 Days
+            </option>
+
+            <option value="150">
+                5 Months - 150 Days
+            </option>
+
+            <option value="180">
+                6 Months - 180 Days
+            </option>
+
+            <option value="210">
+                7 Months - 210 Days
+            </option>
+
+            <option value="240">
+                8 Months - 240 Days
+            </option>
+
+            <option value="270">
+                9 Months - 270 Days
+            </option>
+
+            <option value="300">
+                10 Months - 300 Days
+            </option>
+
+            <option value="330">
+                11 Months - 330 Days
+            </option>
+
+            <option value="360">
+                12 Months - 360 Days
+            </option>
+
+            <option value="365">
+                365 Days Challenge
+            </option>
+
+        </select>
+
+
+        <button
+            class="start-btn"
+            id="startTargetBtn"
+        >
+            Start / Change Target
+        </button>
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================
+     STATS
+========================= -->
+
+<div class="stats">
+
+
+<div class="stat">
+
+    <div class="stat-title">
+        🎯 Target
+    </div>
+
+    <div
+        class="stat-number"
+        id="targetDays"
+    >
+        0
+    </div>
+
+    <div class="stat-small">
+        Days
+    </div>
+
+</div>
+
+
+
+<div class="stat">
+
+    <div class="stat-title">
+        ✅ Completed
+    </div>
+
+    <div
+        class="stat-number"
+        id="completedDays"
+    >
+        0
+    </div>
+
+    <div class="stat-small">
+        Days
+    </div>
+
+</div>
+
+
+
+<div class="stat">
+
+    <div class="stat-title">
+        📊 Progress
+    </div>
+
+    <div
+        class="stat-number"
+        id="progressPercent"
+    >
+        0%
+    </div>
+
+    <div class="stat-small">
+        Complete
+    </div>
+
+</div>
+
+
+
+<div class="stat">
+
+    <div class="stat-title">
+        🔥 Streak
+    </div>
+
+    <div
+        class="stat-number"
+        id="streakDays"
+    >
+        0
+    </div>
+
+    <div class="stat-small">
+        Days
+    </div>
+
+</div>
+
+
+</div>
+
+
+
+<!-- =========================
+     PROGRESS BAR
+========================= -->
+
+<div class="card">
+
+    <div class="progress-info">
+
+        <strong>
+            Overall Progress
+        </strong>
+
+        <span id="progressText">
+            0 / 0 days
+        </span>
+
+    </div>
+
+
+    <div class="progress-bar">
+
+        <div
+            class="progress-fill"
+            id="progressFill"
+        ></div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================
+     CHART
+========================= -->
+
+<div class="card">
+
+    <h2>
+        📈 Progress Chart
+    </h2>
+
+    <div class="chart-box">
+
+        <canvas id="progressChart">
+        </canvas>
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================
+     DAILY CHALLENGE
+========================= -->
+
+<div class="card">
+
+    <h2>
+        📅 Daily Challenge
+    </h2>
+
+    <p class="info">
+
+        🔒 Future days are locked.
+        Complete today's day to continue.
+
+    </p>
+
+    <p
+        class="info"
+        id="todayText"
+    ></p>
+
+
+    <div
+        class="days-grid"
+        id="daysGrid"
+    ></div>
+
+</div>
+
+
+
+<!-- =========================
+     CONGRATULATIONS
+========================= -->
+
+<div
+    class="congratulation hidden"
+    id="congratulationBox"
+>
+
+    <h2>
+        🎉 Congratulations!
+    </h2>
+
+    <p id="congratulationText">
+    </p>
+
+</div>
+
+
+
+<footer>
+
+    <p>
+        Developed by
+        <strong>
+            Vipin Shrivastava
+        </strong>
+    </p>
+
+    <p>
+        Daily Discipline © 2026
+    </p>
+
+</footer>
+
+
+</main>
+
+</section>
+
+
+
+<script>
+
+/* =====================================
+   DAILY DISCIPLINE
+   Developer: Vipin Shrivastava
+===================================== */
+
+
+let currentUser = null;
+
+let userData = null;
+
+let progressChart = null;
+
+
+
+/* =====================================
+   ELEMENTS
+===================================== */
+
+const loginPage =
+    document.getElementById("loginPage");
+
+const appPage =
+    document.getElementById("appPage");
+
+const loginForm =
+    document.getElementById("loginForm");
+
+const logoutBtn =
+    document.getElementById("logoutBtn");
+
+const userEmail =
+    document.getElementById("userEmail");
+
+const targetSelect =
+    document.getElementById("targetSelect");
+
+const startTargetBtn =
+    document.getElementById("startTargetBtn");
+
+const targetDays =
+    document.getElementById("targetDays");
+
+const completedDays =
+    document.getElementById("completedDays");
+
+const progressPercent =
+    document.getElementById("progressPercent");
+
+const streakDays =
+    document.getElementById("streakDays");
+
+const progressFill =
+    document.getElementById("progressFill");
+
+const progressText =
+    document.getElementById("progressText");
+
+const daysGrid =
+    document.getElementById("daysGrid");
+
+const todayText =
+    document.getElementById("todayText");
+
+const congratulationBox =
+    document.getElementById("congratulationBox");
+
+const congratulationText =
+    document.getElementById("congratulationText");
+
+
+
+/* =====================================
+   STORAGE KEY
+===================================== */
+
+function storageKey() {
+
+    return "dailyDiscipline_" + currentUser;
+
+}
+
+
+
+/* =====================================
+   TODAY
+===================================== */
+
+function getToday() {
+
+    const date = new Date();
+
+    const year =
+        date.getFullYear();
+
+    const month =
+        String(
+            date.getMonth() + 1
+        ).padStart(2, "0");
+
+    const day =
+        String(
+            date.getDate()
+        ).padStart(2, "0");
+
+    return year + "-" + month + "-" + day;
+
+}
+
+
+
+/* =====================================
+   LOGIN
+===================================== */
+
+loginForm.addEventListener(
+    "submit",
+    function(event) {
+
+        event.preventDefault();
+
+
+        const email =
+            document
+            .getElementById("email")
+            .value
+            .trim()
+            .toLowerCase();
+
+
+        const password =
+            document
+            .getElementById("password")
+            .value;
+
+
+        if (!email.endsWith("@gmail.com")) {
+
+            alert(
+                "Please enter a valid Gmail address."
+            );
+
+            return;
+
+        }
+
+
+        if (password !== "1234") {
+
+            alert(
+                "Password is 1234."
+            );
+
+            return;
+
+        }
+
+
+        currentUser = email;
+
+
+        localStorage.setItem(
+            "dailyDisciplineUser",
+            currentUser
+        );
+
+
+        loadUser();
+
+
+        loginPage.classList.add(
+            "hidden"
+        );
+
+        appPage.classList.remove(
+            "hidden"
+        );
+
+    }
+);
+
+
+
+/* =====================================
+   LOAD USER
+===================================== */
+
+function loadUser() {
+
+    const saved =
+        localStorage.getItem(
+            storageKey()
+        );
+
+
+    if (saved) {
+
+        userData =
+            JSON.parse(saved);
+
+    } else {
+
+        userData = {
+
+            target: 30,
+
+            startDate: null,
+
+            completed: [],
+
+            lastCompleted: null
+
+        };
+
+
+        saveUser();
+
+    }
+
+
+    userEmail.textContent =
+        currentUser;
+
+
+    targetSelect.value =
+        userData.target;
+
+
+    updateTodayText();
+
+    render();
+
+}
+
+
+
+/* =====================================
+   SAVE USER
+===================================== */
+
+function saveUser() {
+
+    localStorage.setItem(
+
+        storageKey(),
+
+        JSON.stringify(userData)
+
+    );
+
+}
+
+
+
+/* =====================================
+   START TARGET
+===================================== */
+
+startTargetBtn.addEventListener(
+    "click",
+    function() {
+
+
+        const target =
+            Number(
+                targetSelect.value
+            );
+
+
+        const confirmChange =
+            confirm(
+
+                "Start a new " +
+                target +
+                " days challenge?\n\n" +
+
+                "Old progress will be reset."
+
+            );
+
+
+        if (!confirmChange) {
+
+            return;
+
+        }
+
+
+        userData.target =
+            target;
+
+
+        userData.startDate =
+            getToday();
+
+
+        userData.completed =
+            [];
+
+
+        userData.lastCompleted =
+            null;
+
+
+        saveUser();
+
+        render();
+
+
+        alert(
+
+            "Your " +
+            target +
+            " days challenge has started! 🎯"
+
+        );
+
+    }
+);
+
+
+
+/* =====================================
+   TODAY TEXT
+===================================== */
+
+function updateTodayText() {
+
+    const date =
+        new Date();
+
+
+    todayText.textContent =
+        date.toLocaleDateString(
+            "en-IN",
+            {
+                weekday: "long",
+                day: "numeric",
+                month: "long",
+                year: "numeric"
+            }
+        );
+
+}
+
+
+
+/* =====================================
+   CURRENT CHALLENGE DAY
+===================================== */
+
+function currentChallengeDay() {
+
+    if (!userData.startDate) {
+
+        return 1;
+
+    }
+
+
+    const start =
+        new Date(
+            userData.startDate
+        );
+
+
+    const today =
+        new Date(
+            getToday()
+        );
+
+
+    const difference =
+        Math.floor(
+
+            (
+                today - start
+            )
+            /
+            (
+                1000 *
+                60 *
+                60 *
+                24
+            )
+
+        );
+
+
+    return difference + 1;
+
+}
+
+
+
+/* =====================================
+   RENDER EVERYTHING
+===================================== */
+
+function render() {
+
+    updateStats();
+
+    renderDays();
+
+    renderChart();
+
+    checkCongratulations();
+
+}
+
+
+
+/* =====================================
+   UPDATE STATS
+===================================== */
+
+function updateStats() {
+
+    const target =
+        userData.target;
+
+
+    const completed =
+        userData.completed.length;
+
+
+    const percent =
+        target > 0
+        ?
+        Math.round(
+            (
+                completed /
+                target
+            ) * 100
+        )
+        :
+        0;
+
+
+    const streak =
+        calculateStreak();
+
+
+    targetDays.textContent =
+        target;
+
+
+    completedDays.textContent =
+        completed;
+
+
+    progressPercent.textContent =
+        percent + "%";
+
+
+    streakDays.textContent =
+        streak;
+
+
+    progressFill.style.width =
+        Math.min(
+            percent,
+            100
+        ) + "%";
+
+
+    progressText.textContent =
+        completed +
+        " / " +
+        target +
+        " days";
+
+}
+
+
+
+/* =====================================
+   RENDER DAYS
+===================================== */
+
+function renderDays() {
+
+    daysGrid.innerHTML = "";
+
+
+    const target =
+        userData.target;
+
+
+    const currentDay =
+        currentChallengeDay();
+
+
+    for (
+        let day = 1;
+        day <= target;
+        day++
+    ) {
+
+
+        const box =
+            document.createElement(
+                "div"
+            );
+
+
+        box.className =
+            "day";
+
+
+        const completed =
+            userData.completed
+            .includes(day);
+
+
+        const current =
+            day === currentDay;
+
+
+        const future =
+            day > currentDay;
+
+
+        if (completed) {
+
+            box.classList.add(
+                "completed"
+            );
+
+        }
+
+
+        if (current) {
+
+            box.classList.add(
+                "current"
+            );
+
+        }
+
+
+        if (future) {
+
+            box.classList.add(
+                "locked"
+            );
+
+        }
+
+
+        const number =
+            document.createElement(
+                "div"
+            );
+
+
+        number.className =
+            "day-number";
+
+
+        number.textContent =
+            "Day " + day;
+
+
+        const status =
+            document.createElement(
+                "div"
+            );
+
+
+        status.className =
+            "day-status";
+
+
+        if (completed) {
+
+            status.textContent =
+                "✅";
+
+        }
+
+        else if (future) {
+
+            status.textContent =
+                "🔒";
+
+        }
+
+        else {
+
+            status.textContent =
+                "⬜";
+
+        }
+
+
+        box.appendChild(
+            number
+        );
+
+
+        box.appendChild(
+            status
+        );
+
+
+        if (
+            !completed &&
+            !future
+        ) {
+
+
+            const button =
+                document.createElement(
+                    "button"
+                );
+
+
+            button.className =
+                "complete-btn";
+
+
+            button.textContent =
+                "Complete";
+
+
+            button.onclick =
+                function() {
+
+                    completeDay(day);
+
+                };
+
+
+            box.appendChild(
+                button
+            );
+
+        }
+
+
+        daysGrid.appendChild(
+            box
+        );
+
+    }
+
+}
+
+
+
+/* =====================================
+   COMPLETE DAY
+===================================== */
+
+function completeDay(day) {
+
+
+    const currentDay =
+        currentChallengeDay();
+
+
+    if (day !== currentDay) {
+
+        alert(
+            "You can only complete today's day."
+        );
+
+        return;
+
+    }
+
+
+    if (
+        userData.completed
+        .includes(day)
+    ) {
+
+        return;
+
+    }
+
+
+    userData.completed.push(
+        day
+    );
+
+
+    userData.completed.sort(
+        function(a,b) {
+
+            return a - b;
+
+        }
+    );
+
+
+    userData.lastCompleted =
+        getToday();
+
+
+    saveUser();
+
+
+    render();
+
+
+    /* MONTH MILESTONES */
+
+    if (day === 30) {
+
+        congratulations(
+            "Aapka 1 month complete ho gaya hai! 🎉"
+        );
+
+    }
+
+    else if (day === 60) {
+
+        congratulations(
+            "Aapke 2 months complete ho gaye hain! 🎉"
+        );
+
+    }
+
+    else if (day === 90) {
+
+        congratulations(
+            "Aapke 3 months complete ho gaye hain! 🎉"
+        );
+
+    }
+
+    else if (
+        day === userData.target
+    ) {
+
+        congratulations(
+            "🏆 Amazing! Aapka complete target finish ho gaya!"
+        );
+
+    }
+
+    else {
+
+        alert(
+            "Day " +
+            day +
+            " completed! ✅"
+        );
+
+    }
+
+}
+
+
+
+/* =====================================
+   CONGRATULATIONS
+===================================== */
+
+function congratulations(message) {
+
+    congratulationBox
+        .classList
+        .remove("hidden");
+
+
+    congratulationText.textContent =
+        message;
+
+
+    congratulationBox.scrollIntoView({
+        behavior: "smooth"
+    });
+
+}
+
+
+
+/* =====================================
+   CHECK CONGRATULATIONS
+===================================== */
+
+function checkCongratulations() {
+
+
+    const completed =
+        userData.completed.length;
+
+
+    if (
+        completed >= 30 &&
+        userData.target >= 30
+    ) {
+
+
+        congratulationBox
+            .classList
+            .remove("hidden");
+
+
+        congratulationText.textContent =
+            "Aapne 30 days complete kar liye! 🎉";
+
+    }
+
+}
+
+
+
+/* =====================================
+   STREAK
+===================================== */
+
+function calculateStreak() {
+
+
+    const completed =
+        [
+            ...userData.completed
+        ]
+        .sort(
+            function(a,b) {
+
+                return b - a;
+
+            }
+        );
+
+
+    if (
+        completed.length === 0
+    ) {
+
+        return 0;
+
+    }
+
+
+    let streak = 1;
+
+
+    for (
+        let i = 0;
+        i < completed.length - 1;
+        i++
+    ) {
+
+
+        if (
+            completed[i] -
+            completed[i + 1]
+            === 1
+        ) {
+
+            streak++;
+
+        }
+
+        else {
+
+            break;
+
+        }
+
+    }
+
+
+    return streak;
+
+}
+
+
+
+/* =====================================
+   CHART
+===================================== */
+
+function renderChart() {
+
+
+    const canvas =
+        document.getElementById(
+            "progressChart"
+        );
+
+
+    const labels = [];
+
+    const values = [];
+
+
+    for (
+        let day = 1;
+        day <= userData.target;
+        day++
+    ) {
+
+
+        labels.push(
+            "Day " + day
+        );
+
+
+        values.push(
+
+            userData.completed
+            .includes(day)
+            ? 1
+            : 0
+
+        );
+
+    }
+
+
+    if (progressChart) {
+
+        progressChart.destroy();
+
+    }
+
+
+    progressChart =
+        new Chart(
+
+            canvas,
+
+            {
+
+                type: "line",
+
+
+                data: {
+
+                    labels: labels,
+
+
+                    datasets: [
+
+                        {
+
+                            label:
+                                "Completed Days",
+
+
+                            data:
+                                values,
+
+
+                            borderWidth: 2,
+
+
+                            tension:
+                                0.25,
+
+
+                            fill: true
+
+                        }
+
+                    ]
+
+                },
+
+
+                options: {
+
+                    responsive: true,
+
+                    maintainAspectRatio: false,
+
+
+                    scales: {
+
+                        y: {
+
+                            min: 0,
+
+                            max: 1,
+
+                            ticks: {
+
+                                stepSize: 1,
+
+                                callback:
+                                    function(value) {
+
+                                    return value === 1
+                                        ? "Done"
+                                        : "Pending";
+
+                                }
+
+                            }
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        );
+
+}
+
+
+
+/* =====================================
+   LOGOUT
+===================================== */
+
+logoutBtn.addEventListener(
+    "click",
+    function() {
+
+
+        localStorage.removeItem(
+            "dailyDisciplineUser"
+        );
+
+
+        currentUser = null;
+
+        userData = null;
+
+
+        appPage.classList.add(
+            "hidden"
+        );
+
+
+        loginPage.classList.remove(
+            "hidden"
+        );
+
+    }
+);
+
+
+
+/* =====================================
+   AUTO LOGIN
+===================================== */
+
+window.addEventListener(
+    "load",
+    function() {
+
+
+        const savedUser =
+            localStorage.getItem(
+                "dailyDisciplineUser"
+            );
+
+
+        if (savedUser) {
+
+
+            currentUser =
+                savedUser;
+
+
+            loadUser();
+
+
+            loginPage.classList.add(
+                "hidden"
+            );
+
+
+            appPage.classList.remove(
+                "hidden"
+            );
+
+        }
+
+    }
+);
+
+</script>
+
+</body>
+</html>
